@@ -106,6 +106,10 @@ apt-get -y install python3-pip libxcb-xkb-dev
 apt-get -y purge libvulkan-dev libvulkan1 libsdl2-dev libsdl2-2.0-0 libpcap0.8-dev libpcap0.8 --purge --autoremove
 apt-get -y clean
 apt-get -y autoclean
+apt-get install -y software-properties-common
+add-apt-repository ppa:deadsnakes/ppa
+apt update
+apt-get install -y debootstrap perl wget git python3.8 python3-pip
 pip3 install meson
 pip3 install ninja
 export PATH="/usr/local/bin:${PATH}"
