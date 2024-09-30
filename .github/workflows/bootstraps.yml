@@ -2,7 +2,7 @@ name: Bootstraps CI
 
 on:
   schedule:
-    - cron:  0 0 1 */2 *
+    - cron:  '0 0 1 */2 *'
   workflow_dispatch:
 
 jobs:
@@ -10,18 +10,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y debootstrap perl wget git
 
       - name: Create bootstraps
         run: |
-          sudo apt update
-          sudo apt install debootstrap perl
           chmod +x create_ubuntu_bootstraps.sh
           sudo ./create_ubuntu_bootstraps.sh
+
+      - name: Package bootstraps
+        run: |
           cd /opt
-          sudo tar -I "xz -T0 -9" -cpf bootstraps.tar.xz chroots
-          sha256sum *.tar.xz
-      - uses: actions/upload-artifact@v3
+          sudo tar -I "xz -T0 -9" -cpf bootstraps.tar.xz chroots || { echo "Tar failed"; exit 1; }
+          sha256sum bootstraps.tar.xz
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
         with:
           name: Bootstraps
           path: /opt/bootstraps.tar.xz
