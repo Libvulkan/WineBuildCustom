@@ -15,8 +15,9 @@ jobs:
         id: download-artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          workflow: <ExtractWow64toopt>  # Replace with the workflow that generated the artifact
+          workflow: <bootstraps.tar.xz>  # Replace with the exact name of the workflow that created the artifact
           workflow_conclusion: success
+          name: "Bootstraps WoW64"  # Name of the artifact you want to download
           path: /opt  # This specifies the target directory
 
       - name: Install unzip
@@ -30,4 +31,3 @@ jobs:
             echo "ZIP file not found!"
             exit 1
           fi
-          
