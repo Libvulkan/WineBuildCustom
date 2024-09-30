@@ -22,7 +22,7 @@ fi
 # here, but this script has only been tested with Ubuntu 18.04 Bionic
 export CHROOT_DISTRO="jammy"
 
-export CHROOT_MIRROR="https://archive.ubuntu.com/ubuntu/"
+export CHROOT_MIRROR="https://ftp.uni-stuttgart.de/ubuntu/"
 
 # Set your preferred path for storing chroots
 # Also don't forget to change the path to the chroots in the build_wine.sh
