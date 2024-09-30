@@ -1,0 +1,33 @@
+name: Download and Extract Artifact
+
+on:
+  workflow_dispatch:  # This allows you to manually trigger the workflow
+
+jobs:
+  download_and_extract:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Download artifact
+        id: download-artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: <ExtractWow64toopt>  # Replace with the workflow that generated the artifact
+          workflow_conclusion: success
+          path: /opt  # This specifies the target directory
+
+      - name: Install unzip
+        run: sudo apt-get install unzip
+
+      - name: Extract ZIP file
+        run: |
+          if [ -f "/opt/Bootstraps WoW64.zip" ]; then
+            sudo unzip "/opt/Bootstraps WoW64.zip" -d /opt
+          else
+            echo "ZIP file not found!"
+            exit 1
+          fi
+          
