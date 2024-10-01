@@ -329,7 +329,7 @@ elif [ "$WINE_BRANCH" = "proton" ]; then
 	fi
 
 
-	WINE_VERSION="$(cat wine/VERSION | tail -c +14)-$(git -C wine rev-parse --short HEAD)"
+	WINE_VERSION="$(cat proton-ge-custom/VERSION | tail -c +14)-$(git -C wine rev-parse --short HEAD)"
 	if [[ "${PROTON_BRANCH}" == "experimental_"* ]] || [ "${PROTON_BRANCH}" = "bleeding-edge" ]; then
 		BUILD_NAME=proton-exp-"${WINE_VERSION}"
 	else
