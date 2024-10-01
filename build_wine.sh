@@ -315,9 +315,9 @@ elif [ "$WINE_BRANCH" = "wayland" ]; then
                                ${WINE_BUILD_OPTIONS}"
 elif [ "$WINE_BRANCH" = "proton" ]; then
 	if [ -z "${PROTON_BRANCH}" ]; then
-		git clone https://github.com/ValveSoftware/wine
+		git clone https://github.com/GloriousEggroll/proton-ge-custom
 	else
-		git clone https://github.com/ValveSoftware/wine -b "${PROTON_BRANCH}"
+		git clone https://github.com/GloriousEggroll/proton-ge-custom -b "${PROTON_BRANCH}"
 	fi
 
 	if [ "${PROTON_BRANCH}" = "experimental_8.0" ]; then
