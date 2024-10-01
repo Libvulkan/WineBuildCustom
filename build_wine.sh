@@ -369,18 +369,18 @@ else
 fi
 
     wget -q --show-progress "https://github.com/wine-staging/wine-staging/archive/v9.2.tar.gz"
-    tar xf v"${WINE_VERSION}".tar.gz
+    tar xf v"9.2".tar.gz
 
-    if [ ! -f v"${WINE_VERSION}".tar.gz ]; then
-        git clone https://github.com/wine-staging/wine-staging wine-staging-"${WINE_VERSION}"
+    if [ ! -f v"9.2".tar.gz ]; then
+        git clone https://github.com/wine-staging/wine-staging wine-staging-"9.2"
     fi
 fi
 
-if [ -f wine-staging-"${WINE_VERSION}"/patches/patchinstall.sh ]; then
-    staging_patcher=("${BUILD_DIR}"/wine-staging-"${WINE_VERSION}"/patches/patchinstall.sh
+if [ -f wine-staging-"9.2"/patches/patchinstall.sh ]; then
+    staging_patcher=("${BUILD_DIR}"/wine-staging-"9.2"/patches/patchinstall.sh
                     DESTDIR="${BUILD_DIR}"/wine)
 else
-    staging_patcher=("${BUILD_DIR}"/wine-staging-"${WINE_VERSION}"/staging/patchinstall.py)
+    staging_patcher=("${BUILD_DIR}"/wine-staging-"9.2"/staging/patchinstall.py)
 fi
 fi
 
