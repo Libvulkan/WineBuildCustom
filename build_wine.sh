@@ -342,14 +342,14 @@ else
 	else
 		BUILD_NAME="${WINE_VERSION}"
 
-		wget -q --show-progress "https://dl.winehq.org/wine/source/${WINE_URL_VERSION}/wine-${WINE_VERSION}.tar.xz"
-		tar xf "wine-${WINE_VERSION}.tar.xz"
-		mv "wine-${WINE_VERSION}" wine
+		wget -q --show-progress "https://dl.winehq.org/wine/source/${WINE_URL_VERSION}/wine-9.2.tar.xz"
+		tar xf "wine-9.2.tar.xz"
+		mv "wine-9.2" wine
 	fi
 
         if [ "$WINE_BRANCH" = "staging" ] || [ "$WINE_BRANCH" = "vanilla" ]; then
 	if [ "${WINE_VERSION}" = "git" ]; then
-    git clone https://github.com/wine-staging/wine-staging wine-staging-"${WINE_VERSION}"
+    git clone https://github.com/wine-staging/wine-staging wine-staging-"9.2"
     upstream_commit="$(cat wine-staging-"${WINE_VERSION}"/staging/upstream-commit | head -c 7)"
     git -C wine checkout "${upstream_commit}"
     if [ "$WINE_BRANCH" = "vanilla" ]; then
@@ -368,7 +368,7 @@ else
     BUILD_NAME="${WINE_VERSION}"-staging
 fi
 
-    wget -q --show-progress "https://github.com/wine-staging/wine-staging/archive/v${WINE_VERSION}.tar.gz"
+    wget -q --show-progress "https://github.com/wine-staging/wine-staging/archive/v9.2.tar.gz"
     tar xf v"${WINE_VERSION}".tar.gz
 
     if [ ! -f v"${WINE_VERSION}".tar.gz ]; then
