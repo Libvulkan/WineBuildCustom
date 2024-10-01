@@ -337,7 +337,7 @@ elif [ "$WINE_BRANCH" = "proton" ]; then
 	fi
 else
 	if [ "${WINE_VERSION}" = "git" ]; then
-		git clone https://gitlab.winehq.org/wine/wine.git wine
+		git clone --branch wine-9.2 https://gitlab.winehq.org/wine/wine.git wine
 		BUILD_NAME="${WINE_VERSION}-$(git -C wine rev-parse --short HEAD)"
 	else
 		BUILD_NAME="${WINE_VERSION}"
@@ -349,7 +349,7 @@ else
 
         if [ "$WINE_BRANCH" = "staging" ] || [ "$WINE_BRANCH" = "vanilla" ]; then
 	if [ "${WINE_VERSION}" = "git" ]; then
-    git clone https://github.com/wine-staging/wine-staging wine-staging-"${WINE_VERSION}"
+    git clone --branch v9.2 https://github.com/wine-staging/wine-staging wine-staging-"${WINE_VERSION}"
     upstream_commit="$(cat wine-staging-"${WINE_VERSION}"/staging/upstream-commit | head -c 7)"
     git -C wine checkout "${upstream_commit}"
     if [ "$WINE_BRANCH" = "vanilla" ]; then
