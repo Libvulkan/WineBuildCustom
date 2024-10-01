@@ -320,23 +320,24 @@ elif [ "$WINE_BRANCH" = "proton" ]; then
 		git clone https://github.com/GloriousEggroll/proton-ge-custom -b "${PROTON_BRANCH}"
 	fi
 
-         mv proton-ge-custom wine
+	# Rename proton-ge-custom directory to wine
+	mv proton-ge-custom wine
 
 	if [ "${PROTON_BRANCH}" = "experimental_8.0" ]; then
 		patch -d wine -Np1 < "${scriptdir}"/proton-exp-8.0.patch
 	fi
 
-	if [ "${PROTON_BRANCH}" = "experimental_9.0" ] || [ "${PROTON_BRANCH}" = "bleeding-edge" ]; then
-	 patch -d wine -Np1 < "${scriptdir}"/proton-exp-9.0.patch
+	if [ "${PROTON_BRANCH}" = "experimental_9.0" ]; then
+		patch -d wine -Np1 < "${scriptdir}"/proton-exp-9.0.patch
 	fi
 
-
 	WINE_VERSION="$(cat wine/VERSION | tail -c +14)-$(git -C wine rev-parse --short HEAD)"
-	if [[ "${PROTON_BRANCH}" == "experimental_"* ]] || [ "${PROTON_BRANCH}" = "bleeding-edge" ]; then
+	if [[ "${PROTON_BRANCH}" == "experimental_"* ]]; then
 		BUILD_NAME=proton-exp-"${WINE_VERSION}"
 	else
 		BUILD_NAME=proton-"${WINE_VERSION}"
 	fi
+
 else
 	if [ "${WINE_VERSION}" = "git" ]; then
 		git clone https://gitlab.winehq.org/wine/wine.git wine
