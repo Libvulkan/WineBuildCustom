@@ -338,24 +338,24 @@ elif [ "$WINE_BRANCH" = "proton" ]; then
 else
 	if [ "${WINE_VERSION}" = "git" ]; then
 		git clone https://gitlab.winehq.org/wine/wine.git wine
-		BUILD_NAME="9.2-$(git -C wine rev-parse --short HEAD)"
+		BUILD_NAME="${WINE_VERSION}-$(git -C wine rev-parse --short HEAD)"
 	else
-		BUILD_NAME="9.2"
+		BUILD_NAME="${WINE_VERSION}"
 
-		wget -q --show-progress "https://dl.winehq.org/wine/source/${WINE_URL_VERSION}/wine-9.2.tar.xz"
-		tar xf "wine-9.2.tar.xz"
-		mv "wine-9.2" wine
+		wget -q --show-progress "https://dl.winehq.org/wine/source/${WINE_URL_VERSION}/wine-${WINE_VERSION}.tar.xz"
+		tar xf "wine-${WINE_VERSION}.tar.xz"
+		mv "wine-${WINE_VERSION}" wine
 	fi
 
         if [ "$WINE_BRANCH" = "staging" ] || [ "$WINE_BRANCH" = "vanilla" ]; then
 	if [ "${WINE_VERSION}" = "git" ]; then
-    git clone https://github.com/wine-staging/wine-staging wine-staging-"9.2"
-    upstream_commit="$(cat wine-staging-"9.2"/staging/upstream-commit | head -c 7)"
+    git clone https://github.com/wine-staging/wine-staging wine-staging-"${WINE_VERSION}"
+    upstream_commit="$(cat wine-staging-"${WINE_VERSION}"/staging/upstream-commit | head -c 7)"
     git -C wine checkout "${upstream_commit}"
     if [ "$WINE_BRANCH" = "vanilla" ]; then
-    BUILD_NAME="9.2-${upstream_commit}"
+    BUILD_NAME="${WINE_VERSION}-${upstream_commit}"
     else
-    BUILD_NAME="9.2-${upstream_commit}-staging"
+    BUILD_NAME="${WINE_VERSION}-${upstream_commit}-staging"
     fi
 else
     if [ -n "${STAGING_VERSION}" ]; then
@@ -368,19 +368,19 @@ else
     BUILD_NAME="${WINE_VERSION}"-staging
 fi
 
-    wget -q --show-progress "https://github.com/wine-staging/wine-staging/archive/v9.2.tar.gz"
-    tar xf v"9.2".tar.gz
+    wget -q --show-progress "https://github.com/wine-staging/wine-staging/archive/v${WINE_VERSION}.tar.gz"
+    tar xf v"${WINE_VERSION}".tar.gz
 
     if [ ! -f v"${WINE_VERSION}".tar.gz ]; then
-        git clone https://github.com/wine-staging/wine-staging wine-staging-"9.2"
+        git clone https://github.com/wine-staging/wine-staging wine-staging-"${WINE_VERSION}"
     fi
 fi
 
-if [ -f wine-staging-"9.2"/patches/patchinstall.sh ]; then
-    staging_patcher=("${BUILD_DIR}"/wine-staging-"9.2"/patches/patchinstall.sh
+if [ -f wine-staging-"${WINE_VERSION}"/patches/patchinstall.sh ]; then
+    staging_patcher=("${BUILD_DIR}"/wine-staging-"${WINE_VERSION}"/patches/patchinstall.sh
                     DESTDIR="${BUILD_DIR}"/wine)
 else
-    staging_patcher=("${BUILD_DIR}"/wine-staging-"9.2"/staging/patchinstall.py)
+    staging_patcher=("${BUILD_DIR}"/wine-staging-"${WINE_VERSION}"/staging/patchinstall.py)
 fi
 fi
 
