@@ -27,6 +27,7 @@ jobs:
           chmod +x build_wine.sh
           export TERMUX_GLIBC="true"
           export EXPERIMENTAL_WOW64="true"
+          export WINE_VERSION="9.2"
           WINE_BRANCH=vanilla ./build_wine.sh
           sha256sum *.tar.xz
       - uses: actions/upload-artifact@v3
