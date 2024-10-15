@@ -91,7 +91,7 @@ export DO_NOT_COMPILE="false"
 # Make sure that ccache is installed before enabling this.
 export USE_CCACHE="${USE_CCACHE:-false}"
 
-export WINE_BUILD_OPTIONS="--disable-winemenubuilder --disable-win16 --enable-win64 --disable-tests --without-capi --without-coreaudio --without-cups --without-dbus --without-gphoto --without-gssapi --without-krb5 --without-osmesa --without-oss --without-pcap --without-pcsclite --without-sane --without-udev --without-unwind --without-usb --without-v4l2 --without-wayland --without-xinerama --without-xxf86vm"
+export WINE_BUILD_OPTIONS="--disable-winemenubuilder --disable-win16 --enable-win64 --disable-tests --without-capi --without-coreaudio --without-cups --without-gphoto --without-osmesa --without-oss --without-pcap --without-pcsclite --without-sane --without-udev --without-unwind --without-usb --without-v4l2 --without-wayland --without-xinerama"
 
 # A temporary directory where the Wine source code will be stored.
 # Do not set this variable to an existing non-empty directory!
@@ -215,7 +215,7 @@ fi
 # Prints out which environment you are building Wine for.
 # Easier to debug script errors.
 
-if [ "$TERMUX_PROOT" = "false" ]; then
+if [ "$TERMUX_PROOT" = "true" ]; then
    echo "Building Wine for proot/chroot environment"
 fi
 if [ "$TERMUX_GLIBC" = "true" ]; then
@@ -505,14 +505,14 @@ fi
 fi
 
 # Highly experimental patch for loosening exception handling (thanks to BrunoSX for the idea)
-if [ "$WINE_BRANCH" = "vanilla" ] || [ "$WINE_BRANCH" = "staging" ]; then
-echo "Loosening exception handling... (thanks BrunoSX)"
-patch -d wine -Np1 < "${scriptdir}"/looserexceptionhandling.patch || {
-        echo "Error: Failed to apply one or more patches."
-        exit 1
-    }
-    clear 
-fi
+#if [ "$WINE_BRANCH" = "vanilla" ] || [ "$WINE_BRANCH" = "staging" ]; then
+#echo "Loosening exception handling... (thanks BrunoSX)"
+#patch -d wine -Np1 < "${scriptdir}"/looserexceptionhandling.patch || {
+#        echo "Error: Failed to apply one or more patches."
+#        exit 1
+#    }
+#    clear 
+#fi
     
 # NDIS patch for fixing crappy Android's SELinux limitations.
 if [ "$TERMUX_GLIBC" = "true" ]; then
@@ -531,12 +531,12 @@ patch -d wine -Np1 < "${scriptdir}"/ndis-proot.patch || {
     clear
 fi
 
-echo "Adding virtual memory environment variable (fixes some games) (credits to BrunoSX for the initial idea)"
-patch -d wine -Np1 < "${scriptdir}"/virtualmemory.patch || {
-        echo "Error: Failed to apply one or more patches."
-        exit 1
-    }
-    clear
+#echo "Adding virtual memory environment variable (fixes some games) (credits to BrunoSX for the initial idea)"
+#patch -d wine -Np1 < "${scriptdir}"/virtualmemory.patch || {
+#        echo "Error: Failed to apply one or more patches."
+#        exit 1
+#    }
+#    clear
 
 #if [ "$WINE_BRANCH" = "vanilla" ] || [ "$WINE_BRANCH" = "staging" ]; then
 #    patch -d wine -Np1 < "${scriptdir}"/wine-cpu-topology.patch || {
@@ -709,4 +709,4 @@ rm -rf "${BUILD_DIR}"
 
 echo
 echo "Done"
-echo "The builds should be in ${result_dir}" 
+echo "The builds should be in ${result_dir}"
