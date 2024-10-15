@@ -315,9 +315,9 @@ elif [ "$WINE_BRANCH" = "wayland" ]; then
                                ${WINE_BUILD_OPTIONS}"
 elif [ "$WINE_BRANCH" = "proton" ]; then
 	if [ -z "${PROTON_BRANCH}" ]; then
-		https://github.com/GloriousEggroll/proton-ge-custom
+		git clone https://github.com/ValveSoftware/wine
 	else
-		https://github.com/GloriousEggroll/proton-ge-custom -b "${PROTON_BRANCH}"
+		git clone https://github.com/ValveSoftware/wine -b "${PROTON_BRANCH}"
 	fi
 
 	if [ "${PROTON_BRANCH}" = "experimental_8.0" ]; then
@@ -337,7 +337,7 @@ elif [ "$WINE_BRANCH" = "proton" ]; then
 	fi
 else
 	if [ "${WINE_VERSION}" = "git" ]; then
-		git clone --branch wine-9.2 https://gitlab.winehq.org/wine/wine.git wine
+		git clone https://gitlab.winehq.org/wine/wine.git wine
 		BUILD_NAME="${WINE_VERSION}-$(git -C wine rev-parse --short HEAD)"
 	else
 		BUILD_NAME="${WINE_VERSION}"
@@ -349,7 +349,7 @@ else
 
         if [ "$WINE_BRANCH" = "staging" ] || [ "$WINE_BRANCH" = "vanilla" ]; then
 	if [ "${WINE_VERSION}" = "git" ]; then
-    git clone --branch v9.2 https://github.com/wine-staging/wine-staging wine-staging-"${WINE_VERSION}"
+    git clone https://github.com/wine-staging/wine-staging wine-staging-"${WINE_VERSION}"
     upstream_commit="$(cat wine-staging-"${WINE_VERSION}"/staging/upstream-commit | head -c 7)"
     git -C wine checkout "${upstream_commit}"
     if [ "$WINE_BRANCH" = "vanilla" ]; then
@@ -449,10 +449,12 @@ if [ "$TERMUX_GLIBC" = "true" ]; then
     echo "Applying esync patch"
     patch -d wine -Np1 < "${scriptdir}"/esync.patch && \
     echo "Applying address space patch"
+    patch -d wine -Np1 < "${scriptdir}"/protonoverrides.patch && \
+    echo "Add Proton DLL overrides"
     patch -d wine -Np1 < "${scriptdir}"/termux-wine-fix-staging.patch && \
     echo "Applying path change patch"
     if git -C "${BUILD_DIR}/wine" log | grep -q 4e04b2d5282e4ef769176c94b4b38b5fba006a06; then
-    patch -d wine -Np1 < "${scriptdir}"/pathfix-wine9.5.patch
+    patch -d wine -Np1 < "${scriptdir}"/path-patch-universal.patch
     else
     patch -d wine -Np1 < "${scriptdir}"/pathfix.patch
     fi || {
@@ -464,10 +466,12 @@ if [ "$TERMUX_GLIBC" = "true" ]; then
     echo "Applying esync patch"
     patch -d wine -Np1 < "${scriptdir}"/esync.patch && \
     echo "Applying address space patch"
+    patch -d wine -Np1 < "${scriptdir}"/protonoverrides.patch && \
+    echo "Add Proton DLL overrides"
     patch -d wine -Np1 < "${scriptdir}"/termux-wine-fix.patch && \
     echo "Applying path change patch"
     if git -C "${BUILD_DIR}/wine" log | grep -q 4e04b2d5282e4ef769176c94b4b38b5fba006a06; then
-    patch -d wine -Np1 < "${scriptdir}"/pathfix-wine9.5.patch
+    patch -d wine -Np1 < "${scriptdir}"/path-patch-universal.patch
     else
     patch -d wine -Np1 < "${scriptdir}"/pathfix.patch
     fi || {
@@ -479,11 +483,13 @@ if [ "$TERMUX_GLIBC" = "true" ]; then
     echo "Applying esync patch"
     patch -d wine -Np1 < "${scriptdir}"/esync.patch && \
     echo "Applying address space patch"
+    patch -d wine -Np1 < "${scriptdir}"/protonoverrides.patch && \
+    echo "Add Proton DLL overrides"
     patch -d wine -Np1 < "${scriptdir}"/termux-wine-fix-staging.patch && \
     echo "Applying path change patch"
     ## This needs an additional check since this patch will not work on
     ## Wine 9.4 and lower due to differences in Wine source code.
-    patch -d wine -Np1 < "${scriptdir}"/pathfix-wine9.5.patch || {
+    patch -d wine -Np1 < "${scriptdir}"/path-patch-universal.patch || {
         echo "Error: Failed to apply one or more patches."
         exit 1
     }
